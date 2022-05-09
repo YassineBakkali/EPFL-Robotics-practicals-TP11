@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="https://www.ros.org/wiki/xacro" name="thymio">
+
+    <xacro:include filename="$(find ros_basics_models)/urdf/utils/inertia.xacro" />
+    <xacro:include filename="$(find ros_basics_models)/urdf/utils/materials.xacro" />
+    <xacro:include filename="$(find ros_basics_models)/urdf/utils/custom_sensors.xacro" />
+    <xacro:include filename="$(find ros_basics_exercise)/urdf/thymio_simple.gazebo" />
+
+    <xacro:property name="wheel_radius" value="0.022"/>
+    <xacro:property name="wheel_len" value="0.015"/>
+    <xacro:arg name="mass" default="0.270"/>
+    <xacro:property name="mass_p" value="$(arg mass)"/>
+    <xacro:property name="body_mass" value="${mass_p * 0.80}"/>
+    <xacro:property name="wheel_mass" value="${mass_p * 0.10}"/>
+
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0"/>
+            <geometry>
+                <box size="0.11 0.112 0.045"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0"/>
+            <geometry>
+                <box size="0.11 0.112 0.045"/>
+            </geometry>
+            <material name="white"/>
+        </collision>
+        <inertial>
+            <mass value="${body_mass}"/>
+            <xacro:box_inertia mass="${body_mass}" x="0.11" y="0.112" z="0.045" />
+        </inertial>
+
+        <!-- Implement the caster wheel -->
+        <visual>
+            <origin xyz="0.035 0 -0.0225" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0.035 0 -0.0225"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+            <material name="white"/>
+        </collision>
+    </link>
+
+    <!-- Implement the left wheel -->
+    <link name="left_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy = "1.57079632679 0 0"/>
+            <geometry>
+                <cylinder length = "${wheel_len}" radius = "${wheel_radius}"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy = "1.57079632679 0 0"/>
+            <geometry>
+                <cylinder length = "${wheel_len}" radius = "${wheel_radius}"/>
+            </geometry>
+            <material name="black"/>
+        </collision>
+        <inertial>
+            <mass value="${wheel_mass}"/>
+            <xacro:cylinder_inertia mass="${wheel_mass}" h="${wheel_len}" r="${wheel_radius}"/>
+        </inertial>
+    </link>
+    <!-- Implement the joint for the left wheel -->
+    <joint name = "left_wheel_joint" type = "continuous">
+        <parent link = "base_link"/>
+        <child link = "left_wheel"/>
+        <origin xyz = "-0.025 0.0475 -0.014" rpy = "0 0 0"/>
+        <axis xyz = "0 1 0"/>
+    </joint>
+
+
+
+
+    <!-- Implement the right wheel -->
+    <link name="right_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy = "1.57079632679 0 0"/>
+            <geometry>
+                <cylinder length = "${wheel_len}" radius = "${wheel_radius}"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy = "1.57079632679 0 0"/>
+            <geometry>
+                <cylinder length = "${wheel_len}" radius = "${wheel_radius}"/>
+            </geometry>
+            <material name="black"/>
+        </collision>
+        <inertial>
+            <mass value="${wheel_mass}"/>
+            <xacro:cylinder_inertia mass="${wheel_mass}" h="${wheel_len}" r="${wheel_radius}"/>
+        </inertial>
+    </link>
+    
+    <!-- Implement the joint for the right wheel -->
+    <joint name = "right_wheel_joint" type = "continuous">
+        <parent link = "base_link"/>
+        <child link = "right_wheel"/>
+        <origin xyz = "-0.025 -0.0475 -0.014" rpy = "0 0 0"/>
+        <axis xyz = "0 1 0"/>
+    </joint>
+
+    <!-- Add your sensors using the macro -->
+    <xacro:csensor plink = "base_link" id="4" mass="0.001" jointxyz="0.059 -0.047 0.0025" jointrpy="0 0 -2.0943951"/>
+    <xacro:csensor plink = "base_link" id="3" mass="0.001" jointxyz="0.070 -0.025 0.0025" jointrpy="0 0 -1.83259571"/>
+    <xacro:csensor plink = "base_link" id="2" mass="0.001" jointxyz="0.075 0 0.0025" jointrpy="0 0 -1.57079633"/>
+    <xacro:csensor plink = "base_link" id="1" mass="0.001" jointxyz="0.070 0.025 0.0025" jointrpy="0 0 -1.30899694"/>
+    <xacro:csensor plink = "base_link" id="0" mass="0.001" jointxyz="0.059 0.047 0.0025" jointrpy="0 0 -1.04719755"/>
+
+    <xacro:csensor plink = "base_link" id="6" mass="0.001" jointxyz="-0.055 0.03 0.0025" jointrpy="0 0 1.57079633"/>
+    <xacro:csensor plink = "base_link" id="5" mass="0.001" jointxyz="-0.055 -0.03 0.0025" jointrpy="0 0 1.57079633"/>
+</robot>

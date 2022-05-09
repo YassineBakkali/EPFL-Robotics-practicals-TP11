@@ -1,0 +1,36 @@
+<robot name="obstacle"
+    xmlns:xacro="https://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find ros_basics_models)/urdf/utils/materials.xacro" />
+    <xacro:include filename="$(find ros_basics_models)/urdf/utils/inertia.xacro" />
+
+    <xacro:property name="mass" value="0.061"/>
+
+    <link name="obstacle">
+        <visual>
+            <origin xyz="0 0 0"/>
+            <geometry>
+                <box size="0.064 0.033 0.101"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0"/>
+            <geometry>
+                <box size="0.064 0.033 0.101"/>
+            </geometry>
+            <material name="white"/>
+        </collision>
+        <inertial>
+            <mass value="${mass}"/>
+            <xacro:box_inertia mass="${mass}" x="0.064" y="0.033" z="0.101" />
+        </inertial>
+    </link>
+
+
+    <gazebo reference="obstacle">
+        <turnGravityOff>false</turnGravityOff>
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+</robot>
