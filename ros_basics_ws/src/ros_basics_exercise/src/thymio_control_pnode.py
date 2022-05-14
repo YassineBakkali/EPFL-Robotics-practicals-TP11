@@ -180,7 +180,7 @@ def spin():
         # save waypoints
         data = []
         for (i, wpt) in enumerate(wpts):
-            data = "wpt %d : x = %.2f, y = %.2f \n" % (i, wpt.x, wpt.y)
+            data = "wpt %d ; x = %.2f; y = %.2f \n" % (i, wpt.x, wpt.y)
             file.write(data)
             file.flush()
     
@@ -190,13 +190,10 @@ def spin():
 
     if (start_recording == True):
         
-        data = "%.2f;%.2f/%.2f;%.2f;%.2f \n" % (current_wpt.goal.x, current_wpt.goal.y, 
+        data = "%.2f;%.2f;%.2f;%.2f;%.2f \n" % (current_wpt.goal.x, current_wpt.goal.y, 
                                                 cur_pos.pose.xyz.x, cur_pos.pose.xyz.y, cur_pos.pose.rpy.yaw)
         file.write(data)
         file.flush()
-
-
-    
 
     # print(get_wpts())
     
