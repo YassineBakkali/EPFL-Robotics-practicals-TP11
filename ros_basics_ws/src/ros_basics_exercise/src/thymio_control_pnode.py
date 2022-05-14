@@ -30,8 +30,6 @@ KI_ANG = .05
 MAX_LIN_VEL = 11e-2
 MAX_ANG_VEL = MAX_LIN_VEL/(4.75e-2)
 
-# WEIGHTS_ANG = [10, 5, 0, -5, -10, -10, 10]
-# WEIGHTS_LIN = [-2, -5, -10, -5, -2, 10, 10]
 WEIGHTS_ANG = [-10, -5, -5, 5, 10, 10, -10]
 WEIGHTS_LIN = [-2, -5, -10, -5, -2, 10, 10]
 PROX_CONV_COEFF = -0.0023
@@ -49,8 +47,6 @@ cur_pos.pose.xyz.y = 0.0
 
 cur_sens = ProximitySensors()
 wpts = GetWaypoints()
-
-# print(sPose.pose)
 
 def poseCallback(_data):
     cur_pos.pose = _data.pose
@@ -137,7 +133,6 @@ def spin():
 
     if USE_SIMULATION == False:
         dist = sensor_to_m(dist)
-        # print(dist)
 
     for i in range(len(dist)):
         if (dist[i] == 0):
@@ -173,7 +168,6 @@ def spin():
 
     # Start recording trajectory when we have enough waypoints
     wpts = list(get_wpts().waypoints)
-    print(wpts)
     if (len(wpts) >= NUMBER_WAYPOINTS and start_recording == False):
         start_recording = True
         file = open("log.txt", "w")
@@ -194,9 +188,6 @@ def spin():
                                                 cur_pos.pose.xyz.x, cur_pos.pose.xyz.y, cur_pos.pose.rpy.yaw)
         file.write(data)
         file.flush()
-
-    # print(get_wpts())
-    
 
     err_ang_prev = err_ang
     err_lin_prev = err_lin
